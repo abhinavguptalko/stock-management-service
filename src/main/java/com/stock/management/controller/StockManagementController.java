@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,9 +36,9 @@ public class StockManagementController {
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/{symbol}")
-    public ResponseEntity<Void> removeStock(@PathVariable String symbol, @PathVariable String userId) {
-        stockManagementService.removeStock(symbol, userId);
+    @PutMapping("/removeStock")
+    public ResponseEntity<Void> removeStock(@PathVariable String userId,@RequestBody StockDTO stockDTO) {
+        stockManagementService.removeStock(userId, stockDTO);
         return ResponseEntity.noContent().build();
     }
 

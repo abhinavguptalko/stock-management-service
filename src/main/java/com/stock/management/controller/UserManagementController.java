@@ -45,12 +45,12 @@ public class UserManagementController {
     }
     
     @PostMapping(("/login"))
-    public ResponseEntity<String> login(@Valid @RequestBody UserDTO userDTO) {
-    	LOGGER.debug("User Login for  {}", userDTO.getUserId());
+    public ResponseEntity<Void> login(@Valid @RequestBody UserDTO userDTO) {
+    	LOGGER.debug("User Login for  {}", userDTO.userId());
              // Authenticate the user
              authenticationManager.authenticate(
-                 new UsernamePasswordAuthenticationToken(userDTO.getUserId(), userDTO.getPassword()));
-             return ResponseEntity.ok("Login successful");
+                 new UsernamePasswordAuthenticationToken(userDTO.userId(), userDTO.password()));
+             return ResponseEntity.noContent().build();
          
     }
 	    

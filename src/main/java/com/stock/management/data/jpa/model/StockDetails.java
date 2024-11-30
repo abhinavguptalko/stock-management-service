@@ -1,5 +1,8 @@
 package com.stock.management.data.jpa.model;
 
+import java.time.LocalDate;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -9,78 +12,55 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class StockDetails {
+
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    private String symbol;
-    private int quantity;
-    private double price;
+	@Column(nullable = false)
+	private String symbol;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private UserInfo userInfo;
+	@Column(nullable = false)
+	private int existingStockQuantity;
 
-    public StockDetails() {}
+	@Column(nullable = false)
+	private int newStockQuantity;
+	
+	@Column(nullable = false)
+	private int removedStockQuantity;
 
-    public StockDetails(String symbol, int quantity, double price, UserInfo UserInfo) {
-        this.symbol = symbol;
-        this.quantity = quantity;
-        this.price = price;
-        this.userInfo = UserInfo;
-    }
+	@Column(nullable = false)
+	private int totalStockQuantity;
 
-    public double getTotalValue() {
-        return quantity * price;
-    }
+	@Column(nullable = false)
+	private LocalDate purchaseDate;
 
-	public Long getId() {
-		return id;
+	@Column(nullable = false)
+	private double price;
+
+	@Column(nullable = false)
+	private boolean isExpired;
+
+	@Column(name = "expired_date") // Map to the correct column name
+	private LocalDate expiredDate;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
+	private UserInfo userInfo;
+
+	// Helper method for total value
+	public double getTotalValue() {
+		return totalStockQuantity * price;
 	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getSymbol() {
-		return symbol;
-	}
-
-	public void setSymbol(String symbol) {
-		this.symbol = symbol;
-	}
-
-	public int getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
-
-	public double getPrice() {
-		return price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
-	}
-
-	public UserInfo getUserDetails() {
-		return userInfo;
-	}
-
-	public void setUserDetails(UserInfo UserInfo) {
-		this.userInfo = UserInfo;
-	}
-    
-    
-
 }
-
-

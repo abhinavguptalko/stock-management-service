@@ -34,7 +34,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     	UserInfo user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with ID: " + userId));
-    	LOGGER.info("User found: {}", user.getUsername());
+    	LOGGER.info("User found: {}", user.getUserId());
     	LOGGER.info("User found password: {}", user.getPassword());
     	return new org.springframework.security.core.userdetails.User(
     	        user.getUserId(), 

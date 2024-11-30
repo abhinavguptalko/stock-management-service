@@ -1,8 +1,6 @@
 package com.stock.management.junit.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -13,18 +11,18 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.stock.management.controller.StockManagementController;
+import com.stock.management.data.jpa.model.StockDetails;
 import com.stock.management.dto.StockDTO;
 import com.stock.management.dto.UserStockDTO;
 import com.stock.management.service.StockManagementService;
 
-@ExtendWith(MockitoExtension.class)
 class StockManagementControllerTest {
 
     @Mock
@@ -33,71 +31,66 @@ class StockManagementControllerTest {
     @InjectMocks
     private StockManagementController stockManagementController;
 
-    private String userId;
+    private static final String USER_ID = "testUser";
 
     @BeforeEach
-    void setup() {
-        userId = "user123";
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
     }
 
-	/*
-	 * @Test void testAddStock() { StockDTO stockDTO = new StockDTO("AAPL", 10);
-	 * UserStockDTO expectedResponse = new UserStockDTO(userId, "AAPL", 10, 150.0);
-	 * 
-	 * when(stockManagementService.addStock(eq(userId), any(StockDTO.class)))
-	 * .thenReturn(expectedResponse);
-	 * 
-	 * ResponseEntity<UserStockDTO> response =
-	 * stockManagementController.addStock(userId, stockDTO);
-	 * 
-	 * assertEquals(200, response.getStatusCodeValue());
-	 * assertEquals(expectedResponse, response.getBody());
-	 * 
-	 * verify(stockManagementService, times(1)).addStock(eq(userId),
-	 * any(StockDTO.class)); }
-	 */
+    @Test
+    void testAddStock_Success() {
+        // Arrange
+        String userId = "testUser";
+        StockDTO stockDTO = new StockDTO("AAPL", 10);
 
-	/*
-	 * @Test void testRemoveStock() { Long stockId = 1L;
-	 * 
-	 * doNothing().when(stockManagementService).removeStock(stockId, userId);
-	 * 
-	 * ResponseEntity<Void> response =
-	 * stockManagementController.removeStock(stockId, userId);
-	 * 
-	 * assertEquals(204, response.getStatusCodeValue());
-	 * 
-	 * verify(stockManagementService, times(1)).removeStock(stockId, userId); }
-	 */
+        // No need to mock void methods with doNothing; ensure dependent methods return correctly
+        when(stockManagementService.addOrUpdateStock(userId, stockDTO)).thenReturn(new StockDetails());
+
+        // Act
+        ResponseEntity<Void> response = stockManagementController.addStock(userId, stockDTO);
+
+        // Assert
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+        verify(stockManagementService, times(1)).addOrUpdateStock(userId, stockDTO);
+    }
+
+
+    @Test
+    void testRemoveStock() {
+        StockDTO stockDTO = new StockDTO("AAPL", 5);
+        doNothing().when(stockManagementService).removeStock(USER_ID, stockDTO);
+
+        ResponseEntity<Void> response = stockManagementController.removeStock(USER_ID, stockDTO);
+
+        assertEquals(204, response.getStatusCodeValue());
+        verify(stockManagementService, times(1)).removeStock(USER_ID, stockDTO);
+    }
 
     @Test
     void testGetAllStocks() {
-        List<UserStockDTO> expectedStocks = Arrays.asList(
-                new UserStockDTO(userId, "AAPL", 10, 150.0),
-                new UserStockDTO(userId, "GOOGL", 5, 2800.0)
+        List<UserStockDTO> stocks = Arrays.asList(
+                new UserStockDTO(USER_ID, "AAPL", 10, 150.0, 1500.0),
+                new UserStockDTO(USER_ID, "GOOGL", 5, 2800.0, 14000.0)
         );
+        when(stockManagementService.getStocksByUser(USER_ID)).thenReturn(stocks);
 
-        when(stockManagementService.getStocksByUser(userId)).thenReturn(expectedStocks);
-
-        ResponseEntity<List<UserStockDTO>> response = stockManagementController.getAllStocks(userId);
+        ResponseEntity<List<UserStockDTO>> response = stockManagementController.getAllStocks(USER_ID);
 
         assertEquals(200, response.getStatusCodeValue());
-        assertEquals(expectedStocks, response.getBody());
-
-        verify(stockManagementService, times(1)).getStocksByUser(userId);
+        assertEquals(2, response.getBody().size());
+        verify(stockManagementService, times(1)).getStocksByUser(USER_ID);
     }
 
     @Test
     void testGetPortfolioValue() {
-        double expectedValue = 3500.0;
+        double portfolioValue = 15500.0;
+        when(stockManagementService.calculatePortfolioValue(USER_ID)).thenReturn(portfolioValue);
 
-        when(stockManagementService.calculatePortfolioValue(userId)).thenReturn(expectedValue);
-
-        ResponseEntity<Double> response = stockManagementController.getPortfolioValue(userId);
+        ResponseEntity<Double> response = stockManagementController.getPortfolioValue(USER_ID);
 
         assertEquals(200, response.getStatusCodeValue());
-        assertEquals(expectedValue, response.getBody());
-
-        verify(stockManagementService, times(1)).calculatePortfolioValue(userId);
+        assertEquals(portfolioValue, response.getBody());
+        verify(stockManagementService, times(1)).calculatePortfolioValue(USER_ID);
     }
 }

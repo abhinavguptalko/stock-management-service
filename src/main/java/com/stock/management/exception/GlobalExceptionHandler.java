@@ -29,5 +29,12 @@ public class GlobalExceptionHandler {
         problemDetail.setTitle("Invalid credentials");
         return problemDetail;
     }
+    
+    @ExceptionHandler(NoDataFoundForSymbolException.class)
+    public ProblemDetail handleNoDataFoundForSymbolException(NoDataFoundForSymbolException ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
+        problemDetail.setTitle("No Data found for Symbol");
+        return problemDetail;
+    }
 
 }
