@@ -54,19 +54,19 @@ The application integrates with Spring Security for authentication, Spring 3 Pro
 src/
 ├── main/
 │   ├── java/com/stock/management/
-│   │   ├── controller/         # REST Controllers for handling user, stock history, and stock APIs
+│   │   ├── controller/         # REST Controllers for handling user, stock History and stock APIs
 │   │   ├── data/jpa/model/     # JPA Entity classes for UserDetails and StockDetails
 │   │   ├── data/jpa/repository # Repositories for database operations
 │   │   ├── dto/                # Data Transfer Objects for requests and responses
 │   │   ├── external/service/   # External API integration for stock prices
 │   │   ├── service/            # Business logic for user and stock management
 │   │   ├── aspect/             # AOP aspects for performance logging
-│   │   ├── exception/          # Custom exception classes for error handling
 │   ├── resources/
 │   │   ├── logback-spring.xml  # Logback configuration
 │   │   ├── application.yml     # Spring Boot configuration
-├── test/                       # Unit, E2E, and integration tests
+├── test/                       # Unit , E2E and integration tests
 
+---
 
 src/
 ├── main/
