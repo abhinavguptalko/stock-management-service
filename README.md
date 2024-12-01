@@ -80,8 +80,8 @@ src/
 ### Setup Instructions
 1. **Clone the Repository**  
    ```bash
-   git clone https://github.com/abhinavguptalko/stock-management.git
-   cd stock-management
+   git clone https://github.com/abhinavguptalko/stock-management-service.git
+   cd stock-management-service
    ```
 
 2. **Build the Project**  
