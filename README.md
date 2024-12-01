@@ -110,7 +110,7 @@ src/
 | Method | Endpoint         | Description        |
 |--------|------------------|--------------------|
 | POST   | `/api/register`  | Register a new user |
-| POST   | `/api/login`     | Authenticate and retrieve JWT token |
+| POST   | `/api/login`     | Authenticate |
 
 ### Stock Management
 | Method | Endpoint                                   | Description                              |
@@ -119,7 +119,7 @@ src/
 | PUT    | `/api/users/{userId}/stocks/removeStock`  | Remove stocks from the portfolio        |
 | GET    | `/api/users/{userId}/stocks`             | Get all stocks for the user             |
 | GET    | `/api/users/{userId}/stocks/portfolio/value` | Calculate total portfolio value          |
-| GET    | `/api/users/{userId}/stocks/history`      | Retrieve user's stock history            |
+| GET    | `/api/stock-history/{userId}`      | Retrieve user's stock history            |
 
 ---
 
@@ -134,10 +134,6 @@ Logs include:
 - **Log Levels**:
   - Development: `DEBUG`.
   - Production: `INFO`.
-
-- **Log Files**:
-  - Location: `logs/stock-management.log`.
-  - Rotates daily and retains history for 30 days.
 
 ---
 
@@ -156,6 +152,15 @@ Using Spring AOP, the application tracks the execution time of all methods in th
 ---
 
 ## **Error Handling**
+
+src/
+├── main/
+│   ├── java/com/stock/management/exception/
+│   │   ├── CustomException.java       # A generic exception class for custom error handling
+│   │   ├── StockNotFoundException.java # Exception thrown when a stock is not found
+│   │   ├── UserNotFoundException.java  # Exception thrown when a user is not found
+│   │   ├── GlobalExceptionHandler.java # Class to handle exceptions globally and return ProblemDetails
+
 
 The application uses **Spring 3 Problem Details** for consistent error responses.  
 **Example Response**:
