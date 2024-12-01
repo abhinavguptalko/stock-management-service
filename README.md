@@ -153,6 +153,7 @@ Using Spring AOP, the application tracks the execution time of all methods in th
 
 ## **Error Handling**
 
+```plaintext
 src/
 ├── main/
 │   ├── java/com/stock/management/exception/
@@ -160,6 +161,9 @@ src/
 │   │   ├── StockNotFoundException.java # Exception thrown when a stock is not found
 │   │   ├── UserNotFoundException.java  # Exception thrown when a user is not found
 │   │   ├── GlobalExceptionHandler.java # Class to handle exceptions globally and return ProblemDetails
+```
+
+---
 
 
 The application uses **Spring 3 Problem Details** for consistent error responses.  
