@@ -20,7 +20,10 @@ The application integrates with Spring Security for authentication, Spring 3 Pro
 - Remove stocks from the portfolio.
 - Retrieve a list of all stocks owned by a user.
 - Calculate total portfolio value dynamically based on stock prices.
-- View stock history (actions like **Added** or **Removed**) for auditing.
+
+### Stock History
+- Track stock additions and removals with details such as **action** (Added/Removed), **symbol**, **quantity**, and **date**.
+- Provides users with a historical record of their stock transactions, useful for auditing and tracking portfolio changes over time.
 
 ### Error Handling
 - Leverages **Spring 3 Problem Details** for standardized error responses.
@@ -62,6 +65,7 @@ src/
 │   │   ├── dto/                # Data Transfer Objects
 │   │   ├── service/            # Business logic for users and stocks
 │   │   ├── aspect/             # AOP aspects for performance monitoring
+│   │   └── exception/          # Exception handling classes
 │   ├── resources/
 │   │   ├── logback-spring.xml  # Logback configuration
 │   │   ├── application.yml     # Application configuration
@@ -116,7 +120,30 @@ src/
 | PUT    | `/api/users/{userId}/stocks/removeStock`  | Remove stocks from the portfolio        |
 | GET    | `/api/users/{userId}/stocks`             | Get all stocks for the user             |
 | GET    | `/api/users/{userId}/stocks/portfolio/value` | Calculate total portfolio value          |
-| GET    | `/api/stock-history/{userId}`      | Retrieve user's stock history            |
+
+### Stock History
+| Method | Endpoint                   | Description                                 |
+|--------|----------------------------|---------------------------------------------|
+| GET    | `/api/stock-history/{userId}` | Retrieve the stock history of the user     |
+
+---
+
+## **Stock History**
+
+The **Stock History** feature allows users to track all actions related to their stock portfolio. This includes any **stock additions** and **removals**, along with important details such as:
+
+- **Stock Symbol**: The symbol of the stock.
+- **Action**: Whether the stock was added or removed.
+- **Quantity**: The number of stocks added or removed.
+- **Date**: The date the action occurred.
+
+### Stock History API
+
+| Method | Endpoint                   | Description                                 |
+|--------|----------------------------|---------------------------------------------|
+| GET    | `/api/stock-history/{userId}` | Retrieve the stock history for the user    |
+
+This endpoint will return a list of historical records for each stock, detailing every change made to the user's portfolio.
 
 ---
 
@@ -142,10 +169,6 @@ Using Spring AOP, the application tracks the execution time of all methods in th
 2024-11-22 11:30:00 INFO PerformanceAspect - Method addStock executed in 120ms.
 ```
 
-### Implementation
-- Custom annotation `@MonitorExecutionTime` wraps methods to log their performance.
-- AOP configuration logs execution time before returning the response.
-
 ---
 
 ## **Error Handling**
@@ -161,7 +184,6 @@ src/
 ```
 
 ---
-
 
 The application uses **Spring 3 Problem Details** for consistent error responses.  
 **Example Response**:
