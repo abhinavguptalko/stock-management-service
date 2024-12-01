@@ -1,6 +1,3 @@
-Here's the enhanced README content in plain text, ready for easy copying and pasting:
-
----
 
 # **Stock Management Application**
 
