@@ -13,7 +13,6 @@ The application integrates with Spring Security for authentication, Spring 3 Pro
 ### User Management
 - User registration and login using secure authentication.
 - Password encryption with **BCryptPasswordEncoder**.
-- JWT-based authentication for securing API endpoints.
 
 ### Stock Management
 - Add stocks to a user’s portfolio with quantity and purchase price.
