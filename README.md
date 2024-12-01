@@ -80,7 +80,7 @@ src/
 ### Setup Instructions
 1. **Clone the Repository**  
    ```bash
-   git clone https://github.com/your-username/stock-management.git
+   git clone https://github.com/abhinavguptalko/stock-management.git
    cd stock-management
    ```
 
@@ -106,8 +106,8 @@ src/
 ### Authentication
 | Method | Endpoint         | Description        |
 |--------|------------------|--------------------|
-| POST   | `/api/register`  | Register a new user |
-| POST   | `/api/login`     | Authenticate |
+| POST   | `/api/users/addUser`  | Register a new user |
+| POST   | `/api/users/login`     | Authenticate |
 
 ### Stock Management
 | Method | Endpoint                                   | Description                              |
