@@ -1,3 +1,7 @@
+Here's the enhanced README content in plain text, ready for easy copying and pasting:
+
+---
+
 # **Stock Management Application**
 
 ## **Overview**
@@ -51,30 +55,21 @@ The application integrates with Spring Security for authentication, Spring 3 Pro
 
 ## **Project Structure**
 
+```plaintext
 src/
 ├── main/
 │   ├── java/com/stock/management/
-│   │   ├── controller/         # REST Controllers for handling user, stock History and stock APIs
-│   │   ├── data/jpa/model/     # JPA Entity classes for UserDetails and StockDetails
-│   │   ├── data/jpa/repository # Repositories for database operations
-│   │   ├── dto/                # Data Transfer Objects for requests and responses
-│   │   ├── external/service/   # External API integration for stock prices
-│   │   ├── service/            # Business logic for user and stock management
-│   │   ├── aspect/             # AOP aspects for performance logging
+│   │   ├── controller/         # REST Controllers for APIs
+│   │   ├── data/jpa/model/     # JPA Entity classes
+│   │   ├── data/jpa/repository # Repositories for DB operations
+│   │   ├── dto/                # Data Transfer Objects
+│   │   ├── service/            # Business logic for users and stocks
+│   │   ├── aspect/             # AOP aspects for performance monitoring
 │   ├── resources/
 │   │   ├── logback-spring.xml  # Logback configuration
-│   │   ├── application.yml     # Spring Boot configuration
-├── test/                       # Unit , E2E and integration tests
-
----
-
-src/
-├── main/
-│   ├── java/com/stock/management/exception/
-│   │   ├── CustomException.java       # A generic exception class for custom error handling
-│   │   ├── StockNotFoundException.java # Exception thrown when a stock is not found
-│   │   ├── UserNotFoundException.java  # Exception thrown when a user is not found
-│   │   ├── GlobalExceptionHandler.java # Class to handle exceptions globally and return ProblemDetails
+│   │   ├── application.yml     # Application configuration
+├── test/                       # Unit and integration tests
+```
 
 ---
 
@@ -88,7 +83,7 @@ src/
 ### Setup Instructions
 1. **Clone the Repository**  
    ```bash
-   git clone https://github.com/abhinavguptalko/stock-management.git
+   git clone https://github.com/your-username/stock-management.git
    cd stock-management
    ```
 
@@ -140,6 +135,10 @@ Logs include:
   - Development: `DEBUG`.
   - Production: `INFO`.
 
+- **Log Files**:
+  - Location: `logs/stock-management.log`.
+  - Rotates daily and retains history for 30 days.
+
 ---
 
 ## **Performance Monitoring**
@@ -149,6 +148,10 @@ Using Spring AOP, the application tracks the execution time of all methods in th
 ```plaintext
 2024-11-22 11:30:00 INFO PerformanceAspect - Method addStock executed in 120ms.
 ```
+
+### Implementation
+- Custom annotation `@MonitorExecutionTime` wraps methods to log their performance.
+- AOP configuration logs execution time before returning the response.
 
 ---
 
